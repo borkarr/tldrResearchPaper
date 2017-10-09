@@ -10,6 +10,13 @@ On my system this is simply
 sudo pacman -S postgresql
 ```
 
+On Ubuntu:
+
+```
+sudo apt-get install postgresql
+sudo apt-get install postgresql-contrib
+```
+
 On Mac this is
 
 ```
@@ -87,6 +94,24 @@ if it was successful it should look like this:
     Success. You can now start the database server using:
     
     pg_ctl -D /var/lib/postgres/data -l logfile start
+
+If you are unable to run initdb you may need to do the following (make sure to make the new user a superuser):
+
+```
+sudo -u postgres createuser --interactive
+```
+
+Now navigate to the backups folder and run the following:
+
+```
+createdb -T template0 tldrDb -U (name_of_user_you_just_made)
+psql -d tldrDb -U (name_of_user_you_just_made) -f (most_recent_backup_file)
+```
+Now you should be able to use psql like so:
+
+```
+psql -d tldrDb -U (name_of_user_you_just_made)
+```
 
 Now exit the `su` from the postgres user like this: 
 
